@@ -1,0 +1,41 @@
+.container {
+    margin: 10px;
+}
+
+.searchWrapper {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    width: min(100%, 280px);
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    padding: 6px 10px;
+
+}
+
+.searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 4px 6px;
+}
+
+.searchButton {
+    background: url(/Pages/icons/Search.svg);
+    background-size: cover;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.searchButton:hover {
+    transform: scale(1.08);
+    opacity: 0.8;
+}
+
+.searchButton:active {
+    transform: scale(0.95);
+}
