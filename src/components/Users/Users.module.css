@@ -1,0 +1,22 @@
+.container {
+    padding: 0 clamp(16px, 7vw, 120px);
+    min-height: calc(100vh - 20px);
+    border-radius: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.article {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    padding: 15px;
+}
+
+.roles {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 80px;
+    justify-content: center;
+    align-items: center;
+}

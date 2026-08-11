@@ -1,4 +1,4 @@
-import { removeComment } from './sessions'
+import { removeComment } from './session'
 import { ROLE } from './constants'
 
 export const createSession = (roleId) => {

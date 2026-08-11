@@ -1,5 +1,13 @@
+header {
+    padding: 20px 0;
+}
+
 .container {
+    padding: 0 clamp(16px, 7vw, 120px);
+    min-height: calc(100vh - 20px);
+    border-radius: 20px;
     margin: 10px;
+    box-sizing: border-box;
 }
 
 .searchWrapper {
@@ -7,7 +15,7 @@
     align-items: center;
     justify-self: end;
     width: min(100%, 280px);
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 24px;
     padding: 6px 10px;
 
@@ -38,4 +46,16 @@
 
 .searchButton:active {
     transform: scale(0.95);
+}
+
+
+.article {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    padding: 15px;
+}
+
+.articlesMap {
+    
 }
