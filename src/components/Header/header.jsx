@@ -6,9 +6,9 @@ import { NavLink } from 'react-router-dom'
 import { ROLE } from '../../bff/constants';
 import { logout } from '../../store/action'
 import { selectUserRole, selectUserLogin, selectUserSession } from '../../selectors'
-import styles from './App.module.css'
+import styles from './header.module.css'
 
-export const App = ({ children }) => {
+export const Header = ({ children }) => {
     const dispatch = useDispatch()
     const roleId = useSelector(selectUserRole);
     const login = useSelector(selectUserLogin);

@@ -117,14 +117,13 @@
     font-weight: 600;
     font-size: 18px;
     text-align: center;
-    color: #642020;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 9px 12px;
     height: 32px;
-    background: linear-gradient(135deg, #fce486 0%, #ff9a7c 25%, #ffeecb 50%, #ffdab6 75%, #fcd7aa 100%);
+    background: linear-gradient(135deg, #fef4d8 0%, #ffe7bc 35%, #ffb178 100%);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: none;
     border-radius: 36px;

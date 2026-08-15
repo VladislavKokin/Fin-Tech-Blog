@@ -1,4 +1,3 @@
-import { App } from '../App/App'
 import { useState } from 'react'
 import styles from './Pages.module.css'
 
@@ -7,7 +6,6 @@ export const Pages = () => {
 
     return (
         <section id="pages-section" className={styles.container}>
-            <App />
             <header>
                 <div className={styles.searchWrapper}>
                     <input

@@ -3,15 +3,7 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    background-image: url(/header/image/MainPage/Background_MainPage.svg);
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 0 clamp(16px, 7vw, 120px);
-    min-height: calc(100vh - 20px);
-    border-radius: 20px;
-    margin: 10px;
+    min-height: calc(78vh - 20px);
 }
 
 .descriptionContainer {

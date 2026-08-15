@@ -1,21 +1,25 @@
-import { App } from '../App/App'
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { UserRow } from "./components";
 import { useServerRequest } from "../../hooks";
 import styles from './Users.module.css';
+import { ROLE } from '../../bff/constants';
 
 
 export const Users = () => {
     const [users, setUsers] = useState([])
     const [roles, setRoles] = useState([]);
+    const [shouldUpdateUserList, setShouldUpdateUserList] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
-    const dispatch = useDispatch()
-    const requestServer = useServerRequest('fetchRoles');
+    const requestServer = useServerRequest();
+
+    const onUserRemove = (userId) => requestServer('removeUser', userId).then(() => {
+        setShouldUpdateUserList(!shouldUpdateUserList)
+        
+    })
 
     useEffect( () => {
-        Promise.all([requestServer('fetchRoles'), 
-            requestServer('fetchUsers'),
+        Promise.all([requestServer('fetchUsers'), 
+            requestServer('fetchRoles'),
         ]).then(([usersRes, rolesRes]) => {
             if (usersRes.error || rolesRes.error) {
                 setErrorMessage(usersRes.error || rolesRes.error)
@@ -23,19 +27,12 @@ export const Users = () => {
             }
             setUsers(usersRes.res)
             setRoles(rolesRes.res)
-        });
-        requestServer('fetchRoles').then(({ error, res }) => {
-            if (error) {
-                return;
-            }
-            setRoles(res)
-        });
-        requestServer('fetchUsers')
-    }, []);
+        },
+    );
+    }, [requestServer, shouldUpdateUserList]);
 
     return (
         <section className={styles.container}>
-            <App />
             {errorMessage ? (
                 <>
                     <h2>Ошибка</h2>
@@ -44,17 +41,20 @@ export const Users = () => {
             ) : (
                 <>
                     <h2 className={styles.article}>Пользователи</h2>
-                    <div className={styles.roles}>
-                        <div>Логин</div>
-                        <div>Дата регистрации</div>
-                        <div>Роль</div>
+                    <div className={styles.table}>
+                        <div className={styles.roles}>
+                            <div className={styles.headerCell}>Логин</div>
+                            <div className={styles.headerCell}>Дата регистрации</div>
+                            <div className={styles.headerCell}>Роль</div>
+                            <div className={styles.headerAction}>Действия</div>
+                        </div>
+                        <div className={styles.rows}>
+                            {users.map(({ id, login, registeredAt, roleId }) => (
+                                <UserRow key={id} id={id} login={login} registeredAt={registeredAt} roleId={roleId} 
+                                    roles={roles.filter(({id: roleId}) => roleId !== ROLE.GUEST)} onUserRemove={() => onUserRemove(id)} />
+                            ))}
+                        </div>
                     </div>
-                    <div>
-                        {users.map(({ id, login, registeredAt, roleId }) => (
-                            <UserRow key={id} login={login} registeredAt={registeredAt} roleId={roleId} roles={roles} />
-                        ))}
-                    </div>
-                    <button className={""} onClick={() => dispatch(/* TODO */)} />
                 </>
             )}
         </section>

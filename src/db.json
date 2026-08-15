@@ -1,44 +1,48 @@
 {
-    "users": [
-        {
-            "id": "001",
-            "login": "iosiph",
-            "password": "Stalingrad!2",
-            "registed_at": "2024-05-15",
-            "role_id": 0
-        }
-    ],
-    "roles": [
-        {
-            "id": 0,
-            "name": "Администратор"
-        },
-        {
-            "id": 1,
-            "name": "Модератор"
-        },
-        {
-            "id": 2,
-            "name": "Читатель"
-        },
-        {
-            "id": 3,
-            "name": "Гость"
-        }
-    ],
-    "posts": [
-        {
-            "id": "001",
-            "title": "",
-            "image_url": "",
-            "content": "",
-            "published_at": "2024-05-17"
-        }
-    ],
-    "comments": [
-        {
-
-        }
-    ]
-    
+  "users": [
+    {
+      "id": "001",
+      "login": "iosiph",
+      "password": "Stalingrad!2",
+      "registed_at": "2024-05-15",
+      "role_id": 0
+    },
+    {
+      "id": "002",
+      "login": "dfskl;jgh",
+      "password": "Stalingrad!2",
+      "registed_at": "2024-05-20",
+      "role_id": 2
+    }
+  ],
+  "roles": [
+    {
+      "id": 0,
+      "name": "Администратор"
+    },
+    {
+      "id": 1,
+      "name": "Модератор"
+    },
+    {
+      "id": 2,
+      "name": "Читатель"
+    },
+    {
+      "id": 3,
+      "name": "Гость"
+    }
+  ],
+  "posts": [
+    {
+      "id": "001",
+      "title": "",
+      "image_url": "",
+      "content": "",
+      "published_at": "2024-05-17"
+    }
+  ],
+  "comments": [
+    {}
+  ]
 }

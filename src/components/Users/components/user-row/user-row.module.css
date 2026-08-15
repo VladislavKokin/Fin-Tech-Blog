@@ -1,0 +1,72 @@
+.row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.row:hover {
+    transform: translateY(-1px);
+    border-color: rgba(75, 192, 255, 0.655);
+    box-shadow: 0 5px 10px rgba(123, 92, 255, 0.12);
+}
+
+.cell {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.select {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(14, 19, 30, 0.8);
+    color: #edf2ff;
+    outline: none;
+}
+
+.actions {
+    flex: 0 0 140px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+} 
+
+.buttonSave {
+    background: url('/header/icon/Save.svg') center/cover no-repeat;
+}
+
+.buttonDelete {
+    background: url('/header/icon/Delete.svg') center/cover no-repeat;
+}
+
+.buttonSave,
+.buttonDelete {
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.buttonSave:hover,
+.buttonDelete:hover {
+    transform: scale(1.08);
+    opacity: 0.8;
+}
+
+.buttonSave:active,
+.buttonDelete:active {
+    transform: scale(0.95);
+}

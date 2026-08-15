@@ -5,11 +5,8 @@
     gap: 20px;
     padding: 24px clamp(16px, 7vw, 120px);
     border-radius: 20px;
-    margin: 10px;
     overflow: hidden;
     box-shadow: 0 16px 40px rgba(31, 60, 136, 0.16);
-    background:
-        linear-gradient(135deg, #fef4d8 0%, #ffe7bc 35%, #ffb178 100%);
     color: #1f2a44;
 }
 
@@ -76,7 +73,6 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    /* justify-self: end; */
     gap: 40px;
     padding: 18px 20px;
     border-radius: 18px;

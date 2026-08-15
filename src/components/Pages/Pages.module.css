@@ -3,11 +3,14 @@ header {
 }
 
 .container {
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(31, 60, 136, 0.16);
+    color: #1f2a44;
     padding: 0 clamp(16px, 7vw, 120px);
-    min-height: calc(100vh - 20px);
+    min-height: calc(93vh - 20px);
     border-radius: 20px;
-    margin: 10px;
     box-sizing: border-box;
+    margin: 10px 0;
 }
 
 .searchWrapper {
@@ -18,7 +21,6 @@ header {
     border: 1px solid #000000;
     border-radius: 24px;
     padding: 6px 10px;
-
 }
 
 .searchInput {
