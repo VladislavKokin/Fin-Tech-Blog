@@ -21,7 +21,6 @@ body {
   position: relative;
   overflow-x: hidden;
   padding: 0 clamp(16px, 7vw, 120px);
-
   margin: 10px;
   box-sizing: border-box;
   font-family: "Urbanist", sans-serif;
@@ -81,6 +80,13 @@ body::after {
   100% {
     background-position: 0% 50%;
   }
+}
+
+textarea {
+  white-space: pre-line;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 button {

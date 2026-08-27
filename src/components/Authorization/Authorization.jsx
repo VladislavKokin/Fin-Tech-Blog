@@ -48,7 +48,8 @@ export const Authorization = ({onClose, onSwitch}) => {
                 return;
             }
             dispatch(setUser(res));
-            onClose();
+            sessionStorage.setItem('userData', JSON.stringify(res));
+            onClose()
         })
     }
 

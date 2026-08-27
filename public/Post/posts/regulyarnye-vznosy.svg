@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+        <defs><linearGradient id="pg10" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#DCEFEC"></stop><stop offset="0.55" stop-color="#F8F1DE"></stop><stop offset="1" stop-color="#F9E1E6"></stop></linearGradient></defs>
+        <rect width="320" height="320" rx="20" fill="url(#pg10)"></rect>
+        <rect x="56" y="72" width="208" height="176" rx="6" fill="#FFFFFF"></rect>
+        <rect x="56" y="72" width="208" height="40" rx="6" fill="#2E7DFF"></rect>
+        <rect x="56" y="104" width="208" height="8" fill="#2E7DFF"></rect>
+        <rect x="96" y="56" width="8" height="32" rx="4" fill="#1B55B8"></rect>
+        <rect x="216" y="56" width="8" height="32" rx="4" fill="#1B55B8"></rect>
+        <g fill="#D9E4F5"><rect x="88" y="136" width="16" height="16" rx="2"></rect><rect x="128" y="136" width="16" height="16" rx="2"></rect><rect x="168" y="136" width="16" height="16" rx="2"></rect><rect x="208" y="136" width="16" height="16" rx="2"></rect><rect x="88" y="176" width="16" height="16" rx="2"></rect><rect x="128" y="176" width="16" height="16" rx="2"></rect><rect x="208" y="176" width="16" height="16" rx="2"></rect><rect x="88" y="216" width="16" height="16" rx="2"></rect><rect x="128" y="216" width="16" height="16" rx="2"></rect><rect x="168" y="216" width="16" height="16" rx="2"></rect></g>
+        <rect x="168" y="176" width="16" height="16" rx="2" fill="#F2B950"></rect>
+        <rect x="208" y="216" width="16" height="16" rx="2" fill="#8FB4F2"></rect>
+      </svg>

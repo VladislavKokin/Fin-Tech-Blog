@@ -15,6 +15,11 @@ export const Header = ({ children }) => {
     const session = useSelector(selectUserSession)
     const [isModalWindow, setIsModalWindow] = useState(null)
 
+    const onLogout = () => {
+        dispatch(logout(session))
+        sessionStorage.removeItem('userData');
+    }
+
     return (
         <section>
             <div className={styles.container}>
@@ -32,7 +37,7 @@ export const Header = ({ children }) => {
                             Главная
                         </NavLink>
                         <NavLink
-                            to="/pages"
+                            to="/post"
                             end
                             className={({ isActive }) => (isActive ? styles.navLinkActive : styles.navLink)}
                         >
@@ -65,7 +70,7 @@ export const Header = ({ children }) => {
                                         className={`${styles.buttonLoginout} ${styles.icons}`}
                                         title="Выйти"
                                         type="button"
-                                        onClick={() => dispatch(logout(session))}
+                                        onClick={onLogout}
                                     />
                                 </>
                             )

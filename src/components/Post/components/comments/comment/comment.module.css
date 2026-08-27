@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.border {
+    flex: 1;
+    min-width: 0;
+    min-height: 80px;
+    max-height: 100%;
+    padding: 15px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.467);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+.border:hover {
+    transform: translateY(-1px);
+    border-color: rgba(75, 192, 255, 0.655);
+    box-shadow: 0 5px 10px rgba(123, 92, 255, 0.12);
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.content {
+    white-space: pre-line;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
+.buttonUser {
+    background: url('/Post/icons/User.svg') center/cover no-repeat;
+}
+
+.buttonCalendar {
+    background: url('/Post/icons/Calendar.svg') center/cover no-repeat;
+}
+
+.buttonDelete {
+    background: url('/header/icon/Delete.svg') center/cover no-repeat;
+    margin-top: 5px;
+}
+
+.buttonUser,
+.buttonCalendar,
+.buttonDelete {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.buttonUser:hover,
+.buttonCalendar:hover,
+.buttonDelete:hover
+ {
+    transform: scale(1.08);
+    opacity: 0.8;
+}
+
+.buttonUser:active,
+.buttonCalendar:active
+.buttonDelete:active {
+    transform: scale(0.95);
+}

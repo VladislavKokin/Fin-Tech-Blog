@@ -1,0 +1,128 @@
+header {
+    padding: 20px 0;
+}
+
+.container {
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(31, 60, 136, 0.16);
+    color: #1f2a44;
+    padding: 15px clamp(16px, 7vw, 120px);
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin: 25px 0;
+}
+
+.searchWrapper {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    width: min(100%, 280px);
+    border: 1px solid #000000;
+    border-radius: 24px;
+    padding: 6px 10px;
+    margin: 15px 0;
+}
+
+.searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 4px 6px;
+}
+
+.searchButton,
+.buttonChange,
+.buttonDelete
+ {
+    background: url(/Post/icons/Search.svg);
+    background-size: cover;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.containerButton {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    padding: 0 20px;
+}
+
+.buttonChange {
+    background: url(/Post/icons/Change.svg);
+    background-size: cover;
+    background-position: center;
+}
+
+.buttonDelete {
+    background: url(/header/icon/Delete.svg);
+    background-size: cover;
+    background-position: center;
+}
+
+.searchButton:hover,
+.buttonChange:hover,
+.buttonDelete:hover {
+    transform: scale(1.08);
+    opacity: 0.8;
+}
+
+.searchButton:active,
+.buttonChange:active,
+.buttonDelete:active {
+    transform: scale(0.95);
+}
+
+.article {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    padding: 15px;
+}
+
+.contentIntroduction {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    align-items: center;
+    gap: 40px;
+    padding: 18px 20px;
+}
+
+.contentIntroductionBorder {
+    padding: 20px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.369);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    justify-content: center;
+}
+
+.postImage {
+    border-radius: 18px;
+    justify-self: end;
+}
+
+.contentIntroduction,
+.contentBody,
+.contentConclusion,
+.data,
+.annotation {
+    padding: 10px;
+}
+
+.annotation {
+    font-size: 12px;
+    font-weight: 300;
+    color: gray;
+    justify-self: center;
+}
+
+.data {
+    font-size: 12px;
+    font-weight: 300;
+    justify-self: end;
+}

@@ -1,26 +1,27 @@
 import { addUser } from "../api/add-user";
 import { getUser } from "../api/get-user";
+import { transformUser } from "../transformers";
 import { sessions } from "../sessions";
 
 export const register = async (regLogin, regPassword) => {
 
-        const user = await getUser(regLogin) 
+        const existedUser = await getUser(regLogin)
 
-        if (user) {
+        if (existedUser) {
             return {
                 error: 'Логин уже занят, попробуйте другой',
                 res: null,
             };
         }
 
-        await addUser(regLogin, regPassword)
+        const user = transformUser(await addUser(regLogin, regPassword))
 
         return {
             error: null,
-            res: {    
+            res: {
                 id: user.id,
                 login: user.login,
-                roleId: user.role_id,
+                roleId: user.roleId,
                 session: sessions.create(user),
             }
         }

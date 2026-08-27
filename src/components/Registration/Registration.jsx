@@ -42,13 +42,14 @@ export const Registration = ({onClose}) => {
     const [serverError, setServerError] = useState('');
 
     const onSubmit = ({ login, password}) => {
-        server.authorize(login, password).then((error, res) => {
+        server.register(login, password).then(({ error, res }) => {
             if (error) {
                 setServerError(`Ошибка запроса: ${error}`);
                 return;
             }
             dispatch(setUser(res));
-            onClose();
+            sessionStorage.setItem('userData', JSON.stringify(res));
+            onClose()
         })
     }
 

@@ -1,11 +1,12 @@
-
+import { useLayoutEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import { store } from './store/store'
+import { setUser } from './store/action'
 import { Header } from './components/Header/header'
 import { MainPage } from './components/MainPage/MainPage'
-import { Pages } from './components/Pages/Pages'
+import { Post } from './components/Post/Post'
 import { Users } from "./components/Users/Users";
 import { Footer } from './components/Footer/Footer'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -33,7 +34,23 @@ function PageWrapper({ children }) {
 }
 
 export const App = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const currentUserDataJSON = sessionStorage.getItem('userData')
+
+    if (!currentUserDataJSON) {
+      return;
+    }
+
+    const currentUserData = JSON.parse(currentUserDataJSON)
+
+    dispatch(setUser({
+      ...currentUserData,
+      roleId: Number(currentUserData.roleId),
+    }))
+  }, [dispatch]);
 
   return (
     <>
@@ -46,9 +63,15 @@ export const App = () => {
               </PageWrapper>
             }
           />
-          <Route path="/pages" element={
+          <Route path="/post" element={
               <PageWrapper>
-                <Pages />
+                <Post />
+              </PageWrapper>
+            }
+          />
+          <Route path="/post/:id" element={
+              <PageWrapper>
+                <Post />
               </PageWrapper>
             }
           />
@@ -72,19 +95,5 @@ createRoot(document.getElementById('root')).render(
     </Provider>
   </BrowserRouter>
 )
-
-// createRoot(document.getElementById('root')).render(
-//   <BrowserRouter>
-//     <Provider store={store}>
-//       <App />
-//       <Routes>
-//         <Route path="/" element={<MainPage />} />
-//         <Route path="/pages" element={<Pages />} />
-//         <Route path="/users" element={<Users />} />
-//       </Routes>
-//       <Footer />
-//     </Provider>
-//   </BrowserRouter>,
-// )
 
 //npx json-server --watch src/db.json --port 3005

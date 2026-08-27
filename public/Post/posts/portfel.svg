@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+        <defs><linearGradient id="pg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEFEC"></stop><stop offset="0.55" stop-color="#F8F1DE"></stop><stop offset="1" stop-color="#F9E1E6"></stop></linearGradient></defs>
+        <rect width="320" height="320" rx="20" fill="url(#pg6)"></rect>
+        <circle cx="160" cy="144" r="64" fill="none" stroke="#2E7DFF" stroke-width="32" stroke-dasharray="161 241" transform="rotate(-90 160 144)"></circle>
+        <circle cx="160" cy="144" r="64" fill="none" stroke="#1B55B8" stroke-width="32" stroke-dasharray="100 302" transform="rotate(50 160 144)"></circle>
+        <circle cx="160" cy="144" r="64" fill="none" stroke="#8FB4F2" stroke-width="32" stroke-dasharray="60 342" transform="rotate(140 160 144)"></circle>
+        <circle cx="160" cy="144" r="64" fill="none" stroke="#D9E4F5" stroke-width="32" stroke-dasharray="80 322" transform="rotate(194 160 144)"></circle>
+        <g fill="#0B1220"><rect x="64" y="240" width="8" height="8"></rect><rect x="64" y="264" width="8" height="8"></rect><rect x="176" y="240" width="8" height="8"></rect><rect x="176" y="264" width="8" height="8"></rect></g>
+        <g fill="#C9D2DE"><rect x="80" y="242" width="64" height="4"></rect><rect x="80" y="266" width="44" height="4"></rect><rect x="192" y="242" width="52" height="4"></rect><rect x="192" y="266" width="64" height="4"></rect></g>
+        <rect x="56" y="264" width="48" height="8" rx="4" fill="#F2B950"></rect>
+      </svg>
