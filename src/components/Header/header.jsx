@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Authorization } from '../Authorization/Authorization'
+import { Authorization } from '../authorization/authorization'
 import { Registration } from '../Registration/Registration';
 import { NavLink } from 'react-router-dom'
 import { ROLE } from '../../bff/constants';
@@ -8,7 +8,7 @@ import { logout } from '../../store/action'
 import { selectUserRole, selectUserLogin, selectUserSession } from '../../selectors'
 import styles from './header.module.css'
 
-export const Header = ({ children }) => {
+export const Header = () => {
     const dispatch = useDispatch()
     const roleId = useSelector(selectUserRole);
     const login = useSelector(selectUserLogin);
@@ -21,8 +21,7 @@ export const Header = ({ children }) => {
     }
 
     return (
-        <section>
-            <div className={styles.container}>
+            <section className={styles.container}>
                 <div className={roleId === ROLE.GUEST ? styles.headerGuest : styles.headerUser}>
                     <div className={styles.brand}>
                         <a href=""><img className={styles.icons} src="/header/icon/Logo.svg" alt="Логотип" /></a>
@@ -37,7 +36,7 @@ export const Header = ({ children }) => {
                             Главная
                         </NavLink>
                         <NavLink
-                            to="/post"
+                            to="/posts"
                             end
                             className={({ isActive }) => (isActive ? styles.navLinkActive : styles.navLink)}
                         >
@@ -84,13 +83,11 @@ export const Header = ({ children }) => {
                         {isModalWindow === 'register' && (
                             <Registration
                                 onClose={() => setIsModalWindow(null)}
-                                onSwitch={() => setIsModalWindow('auth')}
                             />
                         )}
                     </>
                 </div>
-            </div>
-            <main className={styles.content}>{children}</main>
-        </section>
+            </section>
+            
     )
 }

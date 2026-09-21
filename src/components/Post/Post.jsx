@@ -1,62 +1,58 @@
-import { Comments, PostContent } from './components';
-import { useServerRequest } from '../../hooks';
-import { loadPost } from '../../store/action'
-import { selectPost, selectUserRole } from '../../selectors'
-import { ROLE } from '../../bff/constants';
-
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
+import { Comments, PostContent, PostForm } from './components';
+import { PrivateContent } from '../private-content/private-content'
+import { Error } from '../error/error';
+import { useServerRequest } from '../../hooks';
+import { RESET_POST_DATA, loadPost } from '../../store/action'
+import { selectPost } from '../../selectors'
+import { ROLE } from '../../bff/constants';
 import styles from './Post.module.css'
 
-
 export const Post = () => {
-    const [searchValue, setSearchValue] = useState('');
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     const post = useSelector(selectPost);
-    const roleId = useSelector(selectUserRole);
     const dispatch = useDispatch();
     const params = useParams();
+    const isCreating = !!useMatch('/post')
+    const isEditing = !!useMatch('/post/:id/edit')
     const requestServer = useServerRequest()
 
-    useEffect(() => {
-        dispatch(loadPost(requestServer, params.id))
-    }, [dispatch, requestServer, params.id])
+    useLayoutEffect(() => {
+        dispatch(RESET_POST_DATA)
+    }, [dispatch, isCreating])
 
-    return (
-        <section>
-            <div id="pages-section" className={styles.container}>
-                <div className={styles.searchWrapper}>
-                    <input
-                        type="text"
-                        placeholder="Поиск"
-                        className={styles.searchInput}
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                    />
-                    <button className={styles.searchButton} type="button"
-                    // onClick={() => dispatch(requestSearch(searchValue))}
-                    />
-                </div>
-                {[ROLE.ADMIN, ROLE.MODERATOR].includes(roleId) && (
-                    <div className={styles.containerButton}>
-                        <button className={styles.buttonChange} onClick={() => { }} />
-                        <button className={styles.buttonDelete} onClick={() => { }} />
+    useEffect(() => {
+        if (isCreating) {
+            return;
+        }
+        dispatch(loadPost(requestServer, params.id)).then((postData) => {
+            setError(postData.error)
+            setIsLoading(false)
+        })
+    }, [dispatch, requestServer, params.id, isCreating]);
+
+    if (isLoading && !isCreating) {
+        return null
+    }
+
+    return error ? (
+                <Error error={error}/>
+            ) : isCreating || isEditing ? (
+                <PrivateContent access={[ROLE.ADMIN]} serverError={error}>
+                    <PostForm key={post.id} id={post.id} post={post} />
+                </PrivateContent>
+            ) : (
+                <>
+                    <div className={styles.container}>
+                        <PostContent id={params.id} post={post}/>
                     </div>
-                )}
-                <h2 className={styles.article}>{post.title}</h2>
-                <div className={styles.contentIntroduction}>
-                    <div className={styles.contentIntroductionBorder}>{post.content.introduction}</div>
-                    <img className={styles.postImage} src={post.imageUrl} alt={post.title} />
-                </div>
-                <div className={styles.contentBody}>{post.content.body}</div>
-                <div className={styles.contentConclusion}>{post.content.conclusion}</div>
-                <p className={styles.data}>{post.publishedAt}</p>
-                <p className={styles.annotation}>Не является индивидуальной инвестиционной рекомендацией.</p>
-            </div>
-            <div className={styles.container}>
-                <PostContent post={post} />
-                <Comments comments={post.comments} postId={post.id}/>
-            </div>
-        </section>
-    )
+                    <div className={styles.container}>
+                        <Comments comments={post.comments} postId={post.id} />
+                    </div>
+                </>
+            )
 }
+    

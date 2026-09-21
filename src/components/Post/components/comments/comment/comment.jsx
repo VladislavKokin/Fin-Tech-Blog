@@ -1,6 +1,23 @@
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useServerRequest } from "../../../../../hooks"
+import { removeComment } from '../../../../../store/action'
+import { ROLE } from "../../../../../bff/constants"
+import { selectUserRole } from "../../../../../selectors"
+import { DeleteConfirm } from "./delete-confirm/delete-confirm"
 import styles from "./comment.module.css"
+import PropTypes from 'prop-types'
 
-export const Comment = ({ author, content, publishedAt }) => {
+export const Comment = ({ postId, id, author, content, publishedAt }) => {
+    const [isModalWindow, setIsModalWindow] = useState(null)
+    const dispatch = useDispatch()
+    const requestServer = useServerRequest()
+    const roleId = useSelector(selectUserRole);
+
+    const onCommentRemove = (id) => {
+        dispatch(removeComment(requestServer, postId, id));
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.border}>
@@ -16,7 +33,26 @@ export const Comment = ({ author, content, publishedAt }) => {
                 </div>
                 <div className={styles.content}>{content}</div>
             </div>
-            <button className={styles.buttonDelete} onClick={() => { }} />
+            {(roleId === ROLE.ADMIN || roleId === ROLE.MODERATOR) && (
+                <button className={styles.buttonDelete}
+                    title="Удалить комментарий" type="button"
+                    onClick={() => setIsModalWindow('delete')} />
+            )}
+            {isModalWindow === 'delete' && (
+                <DeleteConfirm
+                    text="Удалить комментарий?"
+                    onConfirm={() => { onCommentRemove(id); setIsModalWindow(null) }}
+                    onCancel={() => setIsModalWindow(null)}
+                />
+            )}
         </div>
     )
+}
+
+Comment.propTypes = {
+    postId: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    author: PropTypes.string,
+    content: PropTypes.string.isRequired,
+    publishedAt: PropTypes.string.isRequired,
 }

@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff';
 import styles from "./Authorization.module.css"
 import { setUser } from '../../store/action/set-user'
+import PropTypes from 'prop-types'
 
 const authFormSchema = yup.object().shape({
     login: yup
@@ -103,4 +104,9 @@ export const Authorization = ({onClose, onSwitch}) => {
             </div>,
         document.body
     )
+}
+
+Authorization.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    onSwitch: PropTypes.func.isRequired,
 }

@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(31, 60, 136, 0.16);
+    color: #1f2a44;
+    padding: 15px clamp(16px, 7vw, 120px);
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin: 25px 0;
+}
+
+.article {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.buttonSave {
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    background: url(/header/icon/Save.svg);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.buttonSave:hover {
+    transform: scale(1.08);
+    opacity: 0.8;
+}
+
+.buttonSave:active {
+    transform: scale(0.95);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 5px 0;
+}
+
+input {
+    width: min(100%, 280px);
+    border: 1px solid #000000;
+    border-radius: 24px;
+    padding: 6px 10px;
+    margin: 5px 0;
+}
+
+textarea {
+    field-sizing: content;
+    resize: vertical;
+    padding: 10px;
+    border-radius: 20px;
+}

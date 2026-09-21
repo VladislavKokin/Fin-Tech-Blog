@@ -1,23 +1,37 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import { UserRow } from "./components";
+import { selectUserRole } from '../../selectors'
 import { useServerRequest } from "../../hooks";
-import styles from './Users.module.css';
 import { ROLE } from '../../bff/constants';
-
+import { checkAccess } from '../../utils'
+import { PrivateContent } from '../private-content/private-content';
+import styles from './Users.module.css';
 
 export const Users = () => {
     const [users, setUsers] = useState([])
     const [roles, setRoles] = useState([]);
     const [shouldUpdateUserList, setShouldUpdateUserList] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const userRole = useSelector(selectUserRole);
+
     const requestServer = useServerRequest();
 
     const onUserRemove = (userId) => requestServer('removeUser', userId).then(() => {
-        setShouldUpdateUserList(!shouldUpdateUserList)
-        
-    })
+                if (! checkAccess([ROLE.ADMIN], userRole)) {
+            return
+        }
+
+        requestServer('removeUser', userId).then(() => {
+            setShouldUpdateUserList(!shouldUpdateUserList)
+        })
+    });
 
     useEffect( () => {
+        if (! checkAccess([ROLE.ADMIN], userRole)) {
+            return
+        }
+
         Promise.all([requestServer('fetchUsers'), 
             requestServer('fetchRoles'),
         ]).then(([usersRes, rolesRes]) => {
@@ -29,34 +43,27 @@ export const Users = () => {
             setRoles(rolesRes.res)
         },
     );
-    }, [requestServer, shouldUpdateUserList]);
-
+    }, [requestServer, shouldUpdateUserList, userRole]);
+ 
     return (
         <section className={styles.container}>
-            {errorMessage ? (
-                <>
-                    <h2>Ошибка</h2>
-                    <p>{errorMessage}</p>
-                </>
-            ) : (
-                <>
-                    <h2 className={styles.article}>Пользователи</h2>
-                    <div className={styles.table}>
-                        <div className={styles.roles}>
-                            <div className={styles.headerCell}>Логин</div>
-                            <div className={styles.headerCell}>Дата регистрации</div>
-                            <div className={styles.headerCell}>Роль</div>
-                            <div className={styles.headerAction}>Действия</div>
-                        </div>
-                        <div className={styles.rows}>
-                            {users.map(({ id, login, registeredAt, roleId }) => (
-                                <UserRow key={id} id={id} login={login} registeredAt={registeredAt} roleId={roleId} 
-                                    roles={roles.filter(({id: roleId}) => roleId !== ROLE.GUEST)} onUserRemove={() => onUserRemove(id)} />
-                            ))}
-                        </div>
+            <PrivateContent access={[ROLE.ADMIN]} serverError={errorMessage}>
+                <h2 className={styles.article}>Пользователи</h2>
+                <div className={styles.table}>
+                    <div className={styles.roles}>
+                        <div className={styles.headerCell}>Логин</div>
+                        <div className={styles.headerCell}>Дата регистрации</div>
+                        <div className={styles.headerCell}>Роль</div>
+                        <div className={styles.headerAction}>Действия</div>
                     </div>
-                </>
-            )}
+                    <div className={styles.rows}>
+                        {users.map(({ id, login, registeredAt, roleId }) => (
+                            <UserRow key={id} id={id} login={login} registeredAt={registeredAt} roleId={roleId}
+                                roles={roles.filter(({ id: roleId }) => roleId !== ROLE.GUEST)} onUserRemove={() => onUserRemove(id)} />
+                        ))}
+                    </div>
+                </div>
+            </PrivateContent>
         </section>
     );
 }

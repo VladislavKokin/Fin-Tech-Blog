@@ -35,7 +35,6 @@ header {
 .buttonChange,
 .buttonDelete
  {
-    background: url(/Post/icons/Search.svg);
     background-size: cover;
     background-position: center;
     width: 18px;

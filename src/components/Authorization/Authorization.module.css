@@ -123,7 +123,8 @@
     align-items: center;
     padding: 9px 12px;
     height: 32px;
-    background: radial-gradient(circle, #E6F4FF, #0088FF);
+    background: #0088FF;
+    color: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: none;
     border-radius: 36px;

@@ -1,0 +1,61 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: stretch;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(31, 60, 136, 0.16);
+    color: #1f2a44;
+    padding: 15px clamp(16px, 7vw, 120px);
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin: 25px 0;
+}
+
+.buttonCreate {
+    align-self: flex-end;
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    margin: 18px;
+    background: url(/Post/icons/Change.svg);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.buttonCreate:hover {
+    transform: scale(1.04);
+    opacity: 0.85;
+}
+
+.buttonCreate:active {
+    transform: scale(0.95);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-content: start;
+    gap: 30px;
+    flex: 1;
+}
+
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .container {
+        border-radius: 12px;
+        margin: 15px 0;
+    }
+}

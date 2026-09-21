@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useServerRequest } from '../../../../hooks'
 import styles from './user-row.module.css'
+import PropTypes from 'prop-types'
+import { PROP_TYPE } from '../../../../constants'
 
 export const UserRow = ({ id, login, registeredAt, roleId: userRoleId, roles, onUserRemove }) => {
     const [initialRoleId, setInitialRoleId] = useState(userRoleId)
@@ -32,4 +34,13 @@ export const UserRow = ({ id, login, registeredAt, roleId: userRoleId, roles, on
             </div>
         </div>
     )
+}
+
+UserRow.propTypes = {
+    id: PropTypes.string.isRequired,
+    login: PropTypes.string.isRequired,
+    registeredAt: PropTypes.string.isRequired,
+    roleId: PROP_TYPE.ROLE_ID.isRequired,
+    roles: PROP_TYPE.ROLES.isRequired,
+    onUserRemove: PropTypes.func.isRequired,
 }

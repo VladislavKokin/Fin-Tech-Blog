@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff';
 import styles from "./Registration.module.css"
 import { setUser } from '../../store/action/set-user'
+import PropTypes from 'prop-types'
 
 const authFormSchema = yup.object().shape({
     login: yup
@@ -107,4 +108,8 @@ export const Registration = ({onClose}) => {
             </div>,
         document.body
     )
+}
+
+Registration.propTypes = {
+    onClose: PropTypes.func.isRequired,
 }

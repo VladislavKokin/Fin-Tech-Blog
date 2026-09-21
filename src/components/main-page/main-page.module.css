@@ -2,8 +2,7 @@
     position: relative;
     z-index: 1;
     display: flex;
-    flex-direction: column;
-    min-height: calc(78vh - 20px);
+    flex: 1;
 }
 
 .descriptionContainer {
@@ -14,10 +13,13 @@
     align-items: end;
 }
 
-.descriptionContainer img {
+.descriptionContainer > img {
     grid-column: 2;
-    grid-row: 1 / 3;
+    grid-row: 1;
     align-self: end;
+    justify-self: center;
+    width: auto;
+    max-height: calc(100dvh - 170px);
 }
 
 .description {

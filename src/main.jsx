@@ -4,13 +4,19 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Provider, useDispatch } from 'react-redux'
 import { store } from './store/store'
 import { setUser } from './store/action'
-import { Header } from './components/Header/header'
-import { MainPage } from './components/MainPage/MainPage'
-import { Post } from './components/Post/Post'
-import { Users } from "./components/Users/Users";
-import { Footer } from './components/Footer/Footer'
+import { ERROR } from './bff/constants'
+import { Header } from './components/header/header'
+import { MainPage } from './components/main-page/main-page'
+import { Posts } from './components/posts/posts'
+import { Post } from './components/post/post'
+import { Users } from "./components/users/users";
+import { Error } from './components/error/error'
+import { Footer } from './components/footer/footer'
 import { AnimatePresence, motion } from 'framer-motion'
+import PropTypes from 'prop-types'
 import './index.css'
+
+// npx json-server --watch src/db.json --port 3005
 
 function PageWrapper({ children }) {
   return (
@@ -31,6 +37,10 @@ function PageWrapper({ children }) {
       {children}
     </motion.div>
   )
+}
+
+PageWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export const App = () => {
@@ -63,6 +73,12 @@ export const App = () => {
               </PageWrapper>
             }
           />
+          <Route path="/posts" element={
+              <PageWrapper>
+                <Posts />
+              </PageWrapper>
+            }
+          />
           <Route path="/post" element={
               <PageWrapper>
                 <Post />
@@ -75,9 +91,21 @@ export const App = () => {
               </PageWrapper>
             }
           />
+          <Route path="/post/:id/edit" element={
+              <PageWrapper>
+                <Post />
+              </PageWrapper>
+            }
+          />
           <Route path="/users" element={
               <PageWrapper>
                 <Users />
+              </PageWrapper>
+            }
+          />
+          <Route path="*" element={
+              <PageWrapper>
+                <Error error={ERROR.PAGE_NOT_EXIST}/>
               </PageWrapper>
             }
           />
@@ -94,6 +122,4 @@ createRoot(document.getElementById('root')).render(
       <App />
     </Provider>
   </BrowserRouter>
-)
-
-//npx json-server --watch src/db.json --port 3005
+);

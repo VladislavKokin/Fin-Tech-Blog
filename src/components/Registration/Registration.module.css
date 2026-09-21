@@ -123,7 +123,8 @@
     align-items: center;
     padding: 9px 12px;
     height: 32px;
-    background: linear-gradient(135deg, #fef4d8 0%, #ffe7bc 35%, #ffb178 100%);
+    background: #0088FF;
+    color: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: none;
     border-radius: 36px;
