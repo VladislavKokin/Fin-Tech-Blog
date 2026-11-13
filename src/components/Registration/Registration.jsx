@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { server } from '../../bff';
-import styles from "./Registration.module.css"
+import { server } from '../../../shared/api/index.js';
+import styles from "./registration.module.css"
 import { setUser } from '../../store/action/set-user'
 import PropTypes from 'prop-types'
 
@@ -22,7 +22,8 @@ const authFormSchema = yup.object().shape({
         .matches(
         /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[-#$%!@&*?])[A-Za-z\d\-#$%!@&*?]{8,20}$/,
         "Пароль должен содержать от 8 до 20 символов,включая хотя бы одну заглавную букву, цифру и специальный символ."
-    )
+    ),
+    confirmPassword: yup.string().required('Подтвердите пароль').oneOf([yup.ref('password')], 'Пароли не совпадают'),
 })
 
 export const Registration = ({onClose}) => {
@@ -31,11 +32,12 @@ export const Registration = ({onClose}) => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm({
         defaultValues: {
             login: '',
             password: '',
+            confirmPassword: '',
         },
         resolver: yupResolver(authFormSchema)
     });
@@ -43,18 +45,18 @@ export const Registration = ({onClose}) => {
     const [serverError, setServerError] = useState('');
 
     const onSubmit = ({ login, password}) => {
-        server.register(login, password).then(({ error, res }) => {
+        setServerError('')
+        return server.register(login, password).then(({ error, res }) => {
             if (error) {
                 setServerError(`Ошибка запроса: ${error}`);
                 return;
             }
             dispatch(setUser(res));
-            sessionStorage.setItem('userData', JSON.stringify(res));
             onClose()
         })
     }
 
-    const formError = errors?.login?.message || errors?.password?.message
+    const formError = errors?.login?.message || errors?.password?.message || errors?.confirmPassword?.message
     const errorMassage = formError || serverError
     
 
@@ -94,12 +96,12 @@ export const Registration = ({onClose}) => {
                                 className={styles.inputs}
                                 placeholder='Подтверждение пароля'
                                 type="password"
-                                name="password"
-                                {...register('password')}
+                                name="confirmPassword"
+                                {...register('confirmPassword')}
                             />
                         </div>
                         <button className={styles.buttonSignIn} type="submit"
-                            disabled={!!formError}>
+                            disabled={isSubmitting || !!formError}>
                             Создать аккаунт
                         </button>
                         {errorMassage && (<div className={styles.error}>{errorMassage}</div>)}

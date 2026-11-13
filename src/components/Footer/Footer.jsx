@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react'
-import styles from './Footer.module.css'
+import { useSelector } from 'react-redux'
+import styles from './footer.module.css'
 
 export const Footer = () => {
     const [city, setCity] = useState('')
-    const [temperature, setTemperature] = useState('')
+    const [temperature, setTemperature] = useState(null)
     const [weather, setWeather] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
+    const dateLabel = useSelector(({ runtime }) => runtime.dateLabel)
 
     useEffect(() => {
-        fetch('https://api.openweathermap.org/data/2.5/weather?q=Ukhta,RU&units=metric&lang=ru&appid=b51437834034020b1452b76ee639987e')
+        fetch('/api/weather')
             .then((res) =>res.json())
-            .then(({ name, main, weather }) => {
-                setCity(name)
-                setTemperature(Math.round(main.temp))
-                setWeather(weather[0].description)
+            .then(({ data }) => {
+                if (!data) return
+                setCity(data.city)
+                setTemperature(data.temperature)
+                setWeather(data.description)
             })
+            .catch(() => {})
+            .finally(() => setIsLoading(false))
     }, []);
 
     return (
@@ -33,14 +39,14 @@ export const Footer = () => {
                     <div className={styles.weatherText}>
                         <span className={styles.weatherLabel}>Погода сейчас</span>
                         <div className={styles.weatherCity}>
-                            {city}, {new Date().toLocaleDateString('ru', { day: 'numeric', month: 'long' })}
+                            {city}, {dateLabel}
                         </div>
                         <div className={styles.weatherDetails}>
-                            {temperature ? `${temperature}°C, ${weather}` : 'Загрузка...'}
+                            {temperature !== null ? `${temperature}°C, ${weather}` : isLoading ? 'Загрузка...' : 'Недоступно'}
                         </div>
                     </div>
                     <div className={styles.weatherBadge}>
-                        {temperature ? `${temperature}°` : '—'}
+                        {temperature !== null ? `${temperature}°` : '—'}
                     </div>
             </div>
         </section>

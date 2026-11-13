@@ -1,11 +1,10 @@
-import { ACTION_TYPE } from '../action';
-import {ROLE} from "../../bff/constants";
+import { ACTION_TYPE } from '../action/action-type.js';
+import { ROLE } from '../../../shared/constants/index.js';
 
-const initialUserState = {
+export const initialUserState = {
     id: null,
     login: null,
     roleId: ROLE.GUEST,
-    session: null,
 };
 
 export const userReducer = (state = initialUserState, action) => {

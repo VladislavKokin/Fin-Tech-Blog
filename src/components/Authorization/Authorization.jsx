@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { server } from '../../bff';
-import styles from "./Authorization.module.css"
+import { server } from '../../../shared/api/index.js';
+import styles from "./authorization.module.css"
 import { setUser } from '../../store/action/set-user'
 import PropTypes from 'prop-types'
 
@@ -31,7 +31,7 @@ export const Authorization = ({onClose, onSwitch}) => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm({
         defaultValues: {
             login: '',
@@ -43,13 +43,13 @@ export const Authorization = ({onClose, onSwitch}) => {
     const [serverError, setServerError] = useState('');
 
     const onSubmit = ({ login, password}) => {
-        server.authorize(login, password).then(({ error, res }) => {
+        setServerError('')
+        return server.authorize(login, password).then(({ error, res }) => {
             if (error) {
                 setServerError(`Ошибка запроса: ${error}`);
                 return;
             }
             dispatch(setUser(res));
-            sessionStorage.setItem('userData', JSON.stringify(res));
             onClose()
         })
     }
@@ -88,7 +88,7 @@ export const Authorization = ({onClose, onSwitch}) => {
                             />
                         </div>
                         <button className={styles.buttonSignIn} type="submit"   
-                            disabled={!!formError}>
+                            disabled={isSubmitting || !!formError}>
                             Войти
                         </button>
                     <button

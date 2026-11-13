@@ -1,15 +1,18 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useServerRequest} from '../../../../hooks'
 import { savePostAsync } from '../../../../store/action'
 // import { sanizeContent } from './utils/sanitize-content'
 import { SpecialPanel } from '../special-panel/special-panel'
+import { Error } from '../../../error/error'
 import styles from './post-form.module.css'
 import PropTypes from 'prop-types'
 import { PROP_TYPE } from '../../../../constants'
 
 export const PostForm = ({ id, post }) => {
+    const [error, setError] = useState(null)
+    const [isSaving, setIsSaving] = useState(false)
     const titleRef = useRef(null)
     const imageRef = useRef(null)
     const contentIntroductionRef = useRef(null)
@@ -21,6 +24,9 @@ export const PostForm = ({ id, post }) => {
     const requestServer = useServerRequest()
 
     const onSave = () => {
+        if (isSaving) return
+        setIsSaving(true)
+        setError(null)
         const newTitleRef = titleRef.current.value;
         const newImageRef = imageRef.current.value;
         const newContentIntroductionRef = contentIntroductionRef.current.value;
@@ -38,7 +44,11 @@ export const PostForm = ({ id, post }) => {
                     conclusion: newContentConclusionRef,
                 },
             }),
-        ).then(({ id: savedId }) => { navigate(`/post/${savedId}`) })
+        ).then(({ error, res }) => {
+            setIsSaving(false)
+            if (error) { setError(error); return }
+            navigate(`/post/${res.id}`)
+        })
     }
 
     return (
@@ -46,7 +56,7 @@ export const PostForm = ({ id, post }) => {
             <h2 className={styles.article}>
                 {id ? 'Изменения' : 'Новая статья'}
             </h2>
-            <SpecialPanel id={post.id} publishedAt={post.publishedAt} editButton={<button className={styles.buttonSave} onClick={onSave} />}/>
+            <SpecialPanel id={post.id} publishedAt={post.publishedAt} editButton={<button className={styles.buttonSave} onClick={onSave} disabled={isSaving} />}/>
             <input
                 ref={titleRef}
                 defaultValue={post.title}
@@ -77,6 +87,7 @@ export const PostForm = ({ id, post }) => {
                 placeholder="Заключение статьи"
                 aria-label="Заключение статьи"
             />
+            {error && <Error error={error} />}
         </section>
     )
 }

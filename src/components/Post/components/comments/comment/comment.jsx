@@ -2,20 +2,23 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useServerRequest } from "../../../../../hooks"
 import { removeComment } from '../../../../../store/action'
-import { ROLE } from "../../../../../bff/constants"
+import { ROLE } from "../../../../../../shared/constants/index.js"
 import { selectUserRole } from "../../../../../selectors"
 import { DeleteConfirm } from "./delete-confirm/delete-confirm"
+import { Error } from '../../../../error/error'
 import styles from "./comment.module.css"
 import PropTypes from 'prop-types'
 
 export const Comment = ({ postId, id, author, content, publishedAt }) => {
     const [isModalWindow, setIsModalWindow] = useState(null)
+    const [error, setError] = useState(null)
     const dispatch = useDispatch()
     const requestServer = useServerRequest()
     const roleId = useSelector(selectUserRole);
 
-    const onCommentRemove = (id) => {
-        dispatch(removeComment(requestServer, postId, id));
+    const onCommentRemove = async (id) => {
+        const result = await dispatch(removeComment(requestServer, postId, id))
+        setError(result.error)
     }
 
     return (
@@ -45,6 +48,7 @@ export const Comment = ({ postId, id, author, content, publishedAt }) => {
                     onCancel={() => setIsModalWindow(null)}
                 />
             )}
+            {error && <Error error={error} />}
         </div>
     )
 }

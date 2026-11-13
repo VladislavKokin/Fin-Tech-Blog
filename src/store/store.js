@@ -1,6 +1,6 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { thunk } from "redux-thunk";
-import { userReducer, usersReducer, postReducer, postsReducer } from "./reducers";
+import { userReducer, usersReducer, postReducer, postsReducer } from "./reducers/index.js";
 
 
 const reducer = combineReducers({
@@ -8,9 +8,13 @@ const reducer = combineReducers({
     users: usersReducer,
     post: postReducer,
     posts: postsReducer,
+    runtime: (state = { dateLabel: '' }) => state,
 });
 
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-export const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+export const makeStore = (preloadedState) => {
+    const composeEnhancers = typeof window !== 'undefined'
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+        : compose;
+    return createStore(reducer, preloadedState, composeEnhancers(applyMiddleware(thunk)));
+};

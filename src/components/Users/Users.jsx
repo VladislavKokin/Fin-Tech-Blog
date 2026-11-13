@@ -1,49 +1,44 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { UserRow } from "./components";
 import { selectUserRole } from '../../selectors'
 import { useServerRequest } from "../../hooks";
-import { ROLE } from '../../bff/constants';
+import { ROLE } from '../../../shared/constants/index.js';
 import { checkAccess } from '../../utils'
 import { PrivateContent } from '../private-content/private-content';
-import styles from './Users.module.css';
+import { ACTION_TYPE } from '../../store/action/action-type';
+import styles from './users.module.css';
 
 export const Users = () => {
-    const [users, setUsers] = useState([])
-    const [roles, setRoles] = useState([]);
-    const [shouldUpdateUserList, setShouldUpdateUserList] = useState(false)
-    const [errorMessage, setErrorMessage] = useState(null)
+    const dispatch = useDispatch()
+    const { users, roles, loaded, error: errorMessage } = useSelector(({ users }) => users)
     const userRole = useSelector(selectUserRole);
 
     const requestServer = useServerRequest();
 
-    const onUserRemove = (userId) => requestServer('removeUser', userId).then(() => {
-                if (! checkAccess([ROLE.ADMIN], userRole)) {
-            return
-        }
-
-        requestServer('removeUser', userId).then(() => {
-            setShouldUpdateUserList(!shouldUpdateUserList)
+    const onUserRemove = (userId) => requestServer('removeUser', userId).then(({ error }) => {
+        dispatch({ type: ACTION_TYPE.SET_USERS_DATA, payload: error
+            ? { error }
+            : { users: users.filter(({ id }) => id !== userId), error: null }
         })
-    });
+    })
 
     useEffect( () => {
-        if (! checkAccess([ROLE.ADMIN], userRole)) {
+        if (loaded || !checkAccess([ROLE.ADMIN], userRole)) {
             return
         }
 
-        Promise.all([requestServer('fetchUsers'), 
+        let active = true
+        Promise.all([requestServer('fetchUsers'),
             requestServer('fetchRoles'),
         ]).then(([usersRes, rolesRes]) => {
-            if (usersRes.error || rolesRes.error) {
-                setErrorMessage(usersRes.error || rolesRes.error)
-                return;
-            }
-            setUsers(usersRes.res)
-            setRoles(rolesRes.res)
-        },
-    );
-    }, [requestServer, shouldUpdateUserList, userRole]);
+            if (!active) return
+            dispatch({ type: ACTION_TYPE.SET_USERS_DATA, payload: {
+                users: usersRes.res || [], roles: rolesRes.res || [], error: usersRes.error || rolesRes.error,
+            } })
+        })
+        return () => { active = false }
+    }, [requestServer, dispatch, loaded, userRole]);
  
     return (
         <section className={styles.container}>

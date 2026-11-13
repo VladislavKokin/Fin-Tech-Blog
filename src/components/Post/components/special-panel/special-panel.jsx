@@ -4,14 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { useServerRequest } from "../../../../hooks"
 import { selectUserRole } from '../../../../selectors'
 import { removePostAsync } from '../../../../store/action'
-import { ROLE } from '../../../../bff/constants';
+import { ROLE } from '../../../../../shared/constants/index.js';
 import { DeleteConfirm } from '../comments/comment/delete-confirm/delete-confirm'
+import { Error } from '../../../error/error'
 import styles from './special-panel.module.css'
 import PropTypes from 'prop-types'
 
 
 export const SpecialPanel = ({ id, publishedAt, editButton }) => {
     const [isModalWindow, setIsModalWindow] = useState(null)
+    const [error, setError] = useState(null)
     const roleId = useSelector(selectUserRole);
     const requestServer = useServerRequest()
     const navigate = useNavigate()
@@ -19,7 +21,8 @@ export const SpecialPanel = ({ id, publishedAt, editButton }) => {
     const dispatch = useDispatch()
 
     const onPostRemove = (id) => {
-        dispatch(removePostAsync(requestServer, id)).then(() => {
+        dispatch(removePostAsync(requestServer, id)).then(({ error }) => {
+            if (error) { setError(error); return }
             navigate('/')
         });
     }
@@ -48,6 +51,7 @@ export const SpecialPanel = ({ id, publishedAt, editButton }) => {
                     </div>
                 </>
             )}
+            {error && <Error error={error} />}
         </div>
     )
 }

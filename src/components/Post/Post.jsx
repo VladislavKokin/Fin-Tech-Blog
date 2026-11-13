@@ -1,40 +1,42 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { Comments, PostContent, PostForm } from './components';
 import { PrivateContent } from '../private-content/private-content'
 import { Error } from '../error/error';
 import { useServerRequest } from '../../hooks';
-import { RESET_POST_DATA, loadPost } from '../../store/action'
+import { setPostData } from '../../store/action'
+import { initialPostState } from '../../store/reducers/post-reducer'
 import { selectPost } from '../../selectors'
-import { ROLE } from '../../bff/constants';
-import styles from './Post.module.css'
+import { ROLE } from '../../../shared/constants/index.js';
+import styles from './post.module.css'
 
 export const Post = () => {
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
-    const post = useSelector(selectPost);
+    const storedPost = useSelector(selectPost);
     const dispatch = useDispatch();
     const params = useParams();
+    const routeId = /^[a-f\d]{24}$/i.test(params.id || '') ? params.id.toLowerCase() : params.id
     const isCreating = !!useMatch('/post')
     const isEditing = !!useMatch('/post/:id/edit')
     const requestServer = useServerRequest()
-
-    useLayoutEffect(() => {
-        dispatch(RESET_POST_DATA)
-    }, [dispatch, isCreating])
+    const post = isCreating ? initialPostState : storedPost
+    const isCurrent = post.loaded && (post.id === routeId || (!post.id && post.requestedId === routeId))
+    const error = isCurrent ? post.error : null
 
     useEffect(() => {
-        if (isCreating) {
-            return;
-        }
-        dispatch(loadPost(requestServer, params.id)).then((postData) => {
-            setError(postData.error)
-            setIsLoading(false)
+        if (isCreating || isCurrent) return
+        let active = true
+        requestServer('fetchPost', routeId).then(({ error, res }) => {
+            if (!active) return
+            dispatch(setPostData(error
+                ? { ...initialPostState, requestedId: routeId, error }
+                : { ...res, requestedId: routeId, error: null }
+            ))
         })
-    }, [dispatch, requestServer, params.id, isCreating]);
+        return () => { active = false }
+    }, [dispatch, requestServer, routeId, isCreating, isCurrent]);
 
-    if (isLoading && !isCreating) {
+    if (!isCurrent && !isCreating) {
         return null
     }
 
@@ -47,7 +49,7 @@ export const Post = () => {
             ) : (
                 <>
                     <div className={styles.container}>
-                        <PostContent id={params.id} post={post}/>
+                        <PostContent id={routeId} post={post}/>
                     </div>
                     <div className={styles.container}>
                         <Comments comments={post.comments} postId={post.id} />

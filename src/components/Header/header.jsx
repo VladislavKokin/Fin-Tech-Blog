@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Authorization } from '../authorization/authorization'
-import { Registration } from '../Registration/Registration';
+import { Registration } from '../registration/registration';
+import { Error } from '../error/error';
 import { NavLink } from 'react-router-dom'
-import { ROLE } from '../../bff/constants';
+import { ROLE } from '../../../shared/constants/index.js';
 import { logout } from '../../store/action'
-import { selectUserRole, selectUserLogin, selectUserSession } from '../../selectors'
+import { selectUserRole, selectUserLogin } from '../../selectors'
 import styles from './header.module.css'
 
 export const Header = () => {
     const dispatch = useDispatch()
     const roleId = useSelector(selectUserRole);
     const login = useSelector(selectUserLogin);
-    const session = useSelector(selectUserSession)
+    const [logoutError, setLogoutError] = useState(null)
     const [isModalWindow, setIsModalWindow] = useState(null)
 
-    const onLogout = () => {
-        dispatch(logout(session))
-        sessionStorage.removeItem('userData');
+    const onLogout = async () => {
+        const result = await dispatch(logout())
+        setLogoutError(result.error)
     }
 
     return (
@@ -67,7 +68,7 @@ export const Header = () => {
                                     <p className={styles.login}>{login}</p>
                                     <button
                                         className={`${styles.buttonLoginout} ${styles.icons}`}
-                                        title="Выйти"
+                                        title={logoutError || 'Выйти'}
                                         type="button"
                                         onClick={onLogout}
                                     />
@@ -87,7 +88,7 @@ export const Header = () => {
                         )}
                     </>
                 </div>
+                {logoutError && <Error error={logoutError} />}
             </section>
-            
     )
 }

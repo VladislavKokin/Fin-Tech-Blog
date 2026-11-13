@@ -1,9 +1,8 @@
-import { ACTION_TYPE } from './action-type'
-import { server } from '../../bff'
+import { ACTION_TYPE } from './action-type.js'
+import { server } from '../../../shared/api/index.js'
 
-export const logout = (session) => {
-    server.logout(session);
-
-    return { type: ACTION_TYPE.LOGOUT, }
-   
+export const logout = () => async (dispatch) => {
+    const result = await server.logout();
+    if (!result.error) dispatch({ type: ACTION_TYPE.LOGOUT });
+    return result;
 };

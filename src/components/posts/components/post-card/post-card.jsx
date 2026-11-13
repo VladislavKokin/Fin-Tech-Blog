@@ -6,7 +6,7 @@ export const PostCard = ({ id, imageUrl, title, publishedAt, commentsCount }) =>
     return (
         <div className={styles.card}>
             <Link className={styles.link} to={`/post/${id}`}>
-                <img className={styles.image} src={imageUrl} alt={title} />
+                <img className={styles.image} src={imageUrl || undefined} alt={title} />
                 <div className={styles.title}>
                     <h5>{title}</h5>
                 </div>

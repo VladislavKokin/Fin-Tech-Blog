@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { selectUserRole } from '../../selectors'
 import { checkAccess } from '../../utils'
-import { ERROR } from '../../bff/constants';
+import { ERROR } from '../../../shared/constants/index.js';
 import { Error } from '../error/error';
 // import styles from './private-content.module.css'
 import PropTypes from 'prop-types'

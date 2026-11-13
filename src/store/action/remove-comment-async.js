@@ -1,7 +1,11 @@
-import { setPostData } from "./set-post-data"
+import { setPostData } from "./set-post-data.js"
+import { ACTION_TYPE } from './action-type.js'
 
-export const removeComment = (requestServer, postId, id) => (dispatch) => {
+export const removeComment = (requestServer, postId, id) => (dispatch) =>
     requestServer('removePostComment', postId, id).then((postData) => {
-        dispatch(setPostData(postData.res))
+        if (!postData.error) {
+            dispatch(setPostData({ ...postData.res, error: null }))
+            dispatch({ type: ACTION_TYPE.INVALIDATE_POSTS })
+        }
+        return postData
     })
-}
