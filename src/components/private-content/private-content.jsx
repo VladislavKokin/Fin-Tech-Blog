@@ -3,7 +3,7 @@ import { selectUserRole } from '../../selectors'
 import { checkAccess } from '../../utils'
 import { ERROR } from '../../../shared/constants/index.js';
 import { Error } from '../error/error';
-// import styles from './private-content.module.css'
+
 import PropTypes from 'prop-types'
 import { PROP_TYPE } from '../../constants'
 

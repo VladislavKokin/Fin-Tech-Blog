@@ -5,6 +5,7 @@ const commentSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   content: { type: String, required: true, trim: true, maxlength: 5000 },
   publishedAt: { type: Date, default: Date.now },
+  legacyId: { type: String, unique: true, sparse: true, immutable: true, select: false },
 }, { timestamps: true, bufferCommands: false })
 
 export const Comment = mongoose.models.Comment || mongoose.model('Comment', commentSchema)

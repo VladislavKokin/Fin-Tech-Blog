@@ -22,7 +22,7 @@ async function createUser(login, password, roleId) {
 
 export const registerUser = (login, password) => createUser(login, password, ROLE.READER)
 
-// CLI only: this service is deliberately not exposed through an API route.
+
 export const createAdmin = (login, password) => createUser(login, password, ROLE.ADMIN)
 
 export async function authorizeUser(login, password) {

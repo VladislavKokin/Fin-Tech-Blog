@@ -28,7 +28,7 @@ const authFormSchema = yup.object().shape({
 
 export const Registration = ({onClose}) => {
     const dispatch = useDispatch();
-    
+
     const {
         register,
         handleSubmit,
@@ -58,7 +58,7 @@ export const Registration = ({onClose}) => {
 
     const formError = errors?.login?.message || errors?.password?.message || errors?.confirmPassword?.message
     const errorMassage = formError || serverError
-    
+
 
     return createPortal(
             <div className={styles.overlay} role="presentation" onClick={onClose}>
@@ -78,8 +78,8 @@ export const Registration = ({onClose}) => {
                                 type="text"
                                 name="login"
                                 {...register('login')}
-                                // value={email}
-                                // onChange={onEmailChange}
+
+
                             />
                         </div>
                         <div className={styles.inputContainer}>

@@ -12,7 +12,8 @@ const postSchema = new mongoose.Schema({
   content: { type: contentSchema, required: true },
   publishedAt: { type: Date, default: Date.now },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // Optional migration identity, excluded from the API and ordinary queries.
+  annotation: { type: String, maxlength: 10000 },
+
   legacyId: { type: String, unique: true, sparse: true, immutable: true, select: false },
 }, { timestamps: true, bufferCommands: false })
 

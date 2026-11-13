@@ -9,8 +9,8 @@ export function serializeState(state) {
 
 export function renderTemplate(template, { html, state }, styles = '') {
   return template
-    .replace('<!--app-html-->', () => html)
-    .replace('<!--app-state-->', () => (
+    .replace('<template id="app-html"></template>', () => html)
+    .replace('<script id="preloaded-state" type="application/json">null</script>', () => (
       `<script id="preloaded-state" type="application/json">${serializeState(state)}</script>`
     ))
     .replace('</head>', () => `${styles}</head>`)

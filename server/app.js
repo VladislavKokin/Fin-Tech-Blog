@@ -42,11 +42,11 @@ export async function createApp({
     const { createServer } = await import('vite')
     vite = await createServer({
       root,
-      // Avoid temporary config modules triggering Node's watch mode in a loop.
+
       configLoader: 'runner',
       server: {
         middlewareMode: true,
-        fs: { deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/data/**', '**/server/**', '**/server.js'] },
+        fs: { deny: ['.env', '.env.*', '**/*.env', '*.{crt,pem}', '**/.git/**', '**/data/**', '**/server/**', '**/server.js'] },
       },
       appType: 'custom',
     })

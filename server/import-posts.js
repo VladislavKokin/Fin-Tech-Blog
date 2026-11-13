@@ -10,8 +10,8 @@ import { Post } from './models/Post.js'
 import { HttpError } from './helpers/http-error.js'
 import { LOGIN_PATTERN, validatePost } from './helpers/validation.js'
 
-// Legacy dates have no timezone. Interpret them consistently as UTC, matching
-// the server DTO formatter; reject overflow dates instead of normalizing them.
+
+
 export function parseLegacyDate(value) {
   if (typeof value !== 'string') throw new HttpError(400, 'Некорректная дата публикации.')
   const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:[ T](\d{2}:\d{2})(?::(\d{2}))?)?$/)
@@ -58,7 +58,7 @@ export async function importLegacyPosts(posts, authorId) {
       await Post.create({ ...post, author: authorId })
       counts.imported += 1
     } catch (error) {
-      // Concurrent explicit imports can encounter the migration unique index.
+
       if (error.code === 11000 && error.keyPattern?.legacyId) counts.skipped += 1
       else throw error
     }
@@ -74,8 +74,8 @@ async function main() {
       throw new HttpError(400, 'Использование: npm run import-posts -- <логин существующего администратора>.')
     }
 
-    // Only the articles are read from the legacy fixture. Plaintext users,
-    // sessions and comments are never imported into the new database.
+
+
     const fixture = JSON.parse(await readFile(new URL('../data/posts.json', import.meta.url), 'utf8'))
     const posts = prepareLegacyPosts(fixture.posts)
     if (!await connectDatabase(process.env.MONGODB_URI)) {
@@ -86,7 +86,7 @@ async function main() {
       throw new HttpError(403, 'Указанный логин должен принадлежать существующему администратору. Сначала выполните npm run create-admin.')
     }
 
-    // Ensure the sparse migration index exists before writes start.
+
     await Post.init()
     const counts = await importLegacyPosts(posts, admin._id)
     console.info(`Импорт завершён. Добавлено статей: ${counts.imported}; пропущено существующих: ${counts.skipped}.`)

@@ -23,6 +23,6 @@ export async function removeUser(id) {
   validateId(id, 'ID пользователя')
   const user = await User.findByIdAndDelete(id).lean()
   if (!user) throw new HttpError(404, 'Пользователь не найден.')
-  // Comments remain part of their articles; readPost labels a missing author.
+
   return true
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useServerRequest} from '../../../../hooks'
 import { savePostAsync } from '../../../../store/action'
-// import { sanizeContent } from './utils/sanitize-content'
+
 import { SpecialPanel } from '../special-panel/special-panel'
 import { Error } from '../../../error/error'
 import styles from './post-form.module.css'

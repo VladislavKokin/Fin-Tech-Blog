@@ -10,7 +10,7 @@ export async function loadPage(url, user, {
   now = new Date(),
 } = {}) {
   const location = new URL(url, 'http://ssr.local')
-  // Match React Router's default case-insensitive paths; ObjectIds are hex.
+
   const path = location.pathname.toLowerCase().replace(/\/+$/, '') || '/'
   const dateLabel = new Intl.DateTimeFormat('ru', {
     day: 'numeric', month: 'long', timeZone: 'Europe/Moscow',
